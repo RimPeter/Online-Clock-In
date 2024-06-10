@@ -1,8 +1,10 @@
-h1 {
-    color: red;
-}
 
-/* create single line for border-bottom*/
 h5 {
     border-bottom: 1px solid;
+}
+
+.form-layout {
+    border-radius: 15px;
+    width: 500px;
+    
 }

@@ -83,9 +83,34 @@ python manage.py migrate
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
     -from jquery:
         <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
-        <script
+    -new update, source: "https://getbootstrap.com/docs/4.4/getting-started/introduction/"
 
 #Create 'register.html', 'dashboard.html', 'create-record.html', 'view-record.html', 'update-record.html' and 'my-login' in webapp:
 
 #Create forms.py:
+    from django.contrib.auth.forms import UserCreationForm
+    from django.contrib.auth.models import User
+    from django import forms
+    from django.contrib.auth.forms import AuthenticationForm
+    from django.forms.widgets import PasswordInput, TextInput
+
+    # - Create User Form
+
+    class CreateUserForm(UserCreationForm):
+    
+        class Meta:
+            model = User
+            fields = ['username', 'password1', 'password2']
+            
+    # - Login User Form
+
+    class LoginForm(AuthenticationForm):
+        username = forms.CharField(widget=TextInput(attrs={'class':'validate','placeholder': 'Username'}))
+        password = forms.CharField(widget=PasswordInput(attrs={'placeholder':'Password'}))
+
+#install crispyforms:
+    pip install django-crispy-forms==1.14.0
+    #Add 'crispy_forms' to INSTALLED_APPS in settings.py
+    #Add CRISPY_TEMPLATE_PACK = 'bootstrap4' in settings.py
+    #Add {% load crispy_forms_tags %} to register.html under {% extends "webapp/base.html" %} 
     
