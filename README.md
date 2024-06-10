@@ -57,3 +57,35 @@ python manage.py migrate
     #return HttpResponse('Hello, Django!')
     return render(request, 'webapp/index.html')
 
+#Create 'base.html' in templates:
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Clock-In</title>
+        <link rel="stylesheet" type="text/css" href="https://bootswatch.com/5/morph/bootstrap.min.css">
+    </head>
+    <body>
+    </body>
+    </html>
+
+#Create style.css in css folder:
+#Add in base.html:
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}"> 
+
+#Create add.js  
+#Add in base.html:
+    <script src="{% static 'js/app.js' %}"></script>
+    -from bootstrap popper to use dropdowns (https://getbootstrap.com/docs/5.3/getting-started/introduction/):
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+    -from jquery:
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+        <script
+
+#Create 'register.html', 'dashboard.html', 'create-record.html', 'view-record.html', 'update-record.html' and 'my-login' in webapp:
+
+#Create forms.py:
+    
