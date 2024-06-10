@@ -1,0 +1,24 @@
+{% extends "webapp/base.html" %} {% block content %}
+<body>
+  <div class="container">
+    <h3>Create Account</h3>
+    <h5>Manage your work hours here!!</h5>
+    <br />
+    <form action="" method="POST" autocomplete="off">
+      {% csrf_token %} {{ form.as_p }}
+      <br />
+      <button type="submit" class="btn btn-primary w-100 btn-block p-2">
+        Create Account
+      </button>
+    </form>
+    <br />
+    <div class="text-center">
+      <p>
+        Already have an account?
+        <a href="{% url '' %}">Login</a>
+      </p>
+    </div>
+  </div>
+</body>
+
+{% endblock %}
