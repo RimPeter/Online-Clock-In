@@ -1,1 +1,27 @@
-<h1>hello world</h1>
+{% extends "webapp/base.html" %}
+
+{% block content %}
+
+<body>
+    
+    <br>
+    <br>
+    <div class="text-center">
+        <h3>
+            CLOCK-IN... Tracking your time has never been easier!
+        </h3>
+        <br>
+        <h5>
+            Keep track of your working hours with Clock-In. Simply click the button below to clock in and out.
+        </h5>
+        <br>
+        <a class='btn btn-primary' type='button' href="{% url '' %}"> Create Account </a>
+
+    </div>
+</body>
+
+
+
+
+{% endblock %}
+
