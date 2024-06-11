@@ -1,7 +1,8 @@
 #install virtual environment
+pip install virtualenv
 python -m venv myenv
 myenv\Scripts\activate
-pip install virtualenv
+
 
 myenv\Script\deactivate or deactivate
 
