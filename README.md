@@ -111,7 +111,55 @@ python manage.py migrate
 
 #install crispyforms:
     pip install django-crispy-forms==1.14.0
-    #Add 'crispy_forms' to INSTALLED_APPS in settings.py
-    #Add CRISPY_TEMPLATE_PACK = 'bootstrap4' in settings.py
+    #Add 'crispy_forms' to INSTALLED_APPS           in settings.py
+    #Add CRISPY_TEMPLATE_PACK = 'bootstrap4'        in settings.py
     #Add {% load crispy_forms_tags %} to register.html under {% extends "webapp/base.html" %} 
+    #Add {% csrf_token %} {{ form|crispy }}         in register.html inside <body>
+
+    pip install django-crispy-forms crispy-bootstrap4
+    #Add:
+            INSTALLED_APPS = [
+            ...
+            'crispy_forms',
+            'crispy_bootstrap4',
+            ]
+
+    #Add:
+            CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+#CREATE LOGIN#
+#webapp/views.py:
+    from django.contrib.auth.models import auth
+    from django.contrib.auth import authenticate
+
+    #Create code:
+    def my_login(request):
+    form = LoginForm()
+    if request.method == 'POST':
+        form = LoginForm(request, data=request.POST)
+        if form.is_valid():
+            username = request.POST.get('username')
+            password = request.POST.get('password')
+            user = authenticate(request, username=username, password=password)
+            
+            if user is not None:
+                auth.login(request, user)
+                #return redirect('home')
+    context = {'form': form}
+    return render(request, 'webapp/my_login.html', context= context)
+
+    #Add html content to your my_login.html
     
+    #webapp/url.py:
+        path('my-login/', views.my_login, name='my-login'),
+
+
+
+
+
+
+
+
+
+
+
