@@ -153,13 +153,46 @@ python manage.py migrate
     #webapp/url.py:
         path('my-login/', views.my_login, name='my-login'),
 
+#Add logout user in webapp/views.py:
+    from django.shortcuts import redirect
+    
+    def user_logout(request):
+        auth.logout(request)
+        return redirect('my-login')
 
+#Add dashboard in webapp/views.py:
 
+    #for decorator:
+    from django.contrib.auth.decorators import login_required
 
+    @login_required(login_url='my-login')
+    def dashboard(request):
+        return render(request, 'webapp/dashboard.html')
 
+    #-un-comment out:
+    return redirect('dashboard')    at def(home) in views
 
+    #Add 'dashboard' at def my_login():
+    if user is not None:
+        auth.login(request, user)
+        return redirect('dashboard')
 
+    #dashboard.html:
+    {% extends "webapp/base.html" %}
+    {% block content %}
+    <h1>
+        Welcome to the Dashboard! {{user}}
+    </h1>
+    {% endblock %}
 
+    #Add at urls.py:
+    path('dashboard/', views.dashboard, name='dashboard'),
 
+    #Add 'dashboard' in navbar.html:
+    <a class="nav-link" href="{% url 'dashboard' %}">Dashboard &nbsp; <i class="fa fa-home" aria-hidden="true"></i> </a>
 
+    #Add in urls.py:
+    path('user-logout/', views.user_logout, name='user-logout')
 
+    #Add 'user-logout' in navbar.html:
+    <a class="nav-link" href="{% url 'user-logout' %}">Sign out &nbsp; <i class="fa fa-sign-out" aria-hidden="true"></i> </a>
