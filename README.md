@@ -342,3 +342,44 @@ def create_record(request):
 
     #Add to dashboard.html:
         href="{% url 'record' record.id%}" 
+
+
+#MESSAGES:
+    #in views.py:
+    from django.contrib import messages
+
+    #for delete_record:
+    messages.success(request, "Your record was deleted!")
+
+    #for user_logout:
+    messages.success(request, "Logout success!")
+
+    #for create_record:
+    messages.success(request, "Your record was created!")
+
+    #for update_record:
+    messages.success(request, "Your record was updated!")
+
+    #base.html:
+    {% for message in messages%}
+      
+          {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <p class="alert alert-success float-center text-center">
+
+              <i class='fa fa-check'aria-hidde='true'></i> &nbsp; {{message}}
+
+            </p>
+          {% endif %}
+
+    #message time out in app.js:
+        // Message/Notification timer
+
+    var message_timeout = document.getElementById("message-timer");
+
+    setTimeout(function () {
+    message_timeout.style.display = "none";
+    }, 5000);
+
+    #Add id for base.html:
+    {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <p id='message-timer' class="alert alert-success float-center text-center">
