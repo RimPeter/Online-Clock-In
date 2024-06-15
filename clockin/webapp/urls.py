@@ -13,7 +13,7 @@ urlpatterns = [
 
     path('user-logout', views.user_logout, name="user-logout"),
 
-    # CRUD
+    # CRUD (Create, Read, Update, Delete) operations
 
     path('dashboard', views.dashboard, name="dashboard"),
 
