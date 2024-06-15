@@ -111,6 +111,8 @@ python manage.py migrate
 
 #install crispyforms:
     pip install django-crispy-forms==1.14.0
+    pip install django-crispy-forms crispy-bootstrap4
+
     #Add 'crispy_forms' to INSTALLED_APPS           in settings.py
     #Add CRISPY_TEMPLATE_PACK = 'bootstrap4'        in settings.py
     #Add {% load crispy_forms_tags %} to register.html under {% extends "webapp/base.html" %} 
@@ -337,6 +339,6 @@ def create_record(request):
 
     #ctreate dinamic url:
         path('record/int:pk>/', views.singular_record, name='record'),
-        
+
     #Add to dashboard.html:
         href="{% url 'record' record.id%}" 
