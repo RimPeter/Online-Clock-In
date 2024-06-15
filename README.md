@@ -196,3 +196,147 @@ python manage.py migrate
 
     #Add 'user-logout' in navbar.html:
     <a class="nav-link" href="{% url 'user-logout' %}">Sign out &nbsp; <i class="fa fa-sign-out" aria-hidden="true"></i> </a>
+
+
+#Add model.py:
+    from django.db import models
+
+    class Record(models.Model):
+        creation_date = models.DateTimeField(auto_now_add=True)
+        first_name = models.CharField(max_length=100)
+        last_name = models.CharField(max_length=100)
+        email = models.EmailField()
+        phone = models.CharField(max_length=20)
+        address = models.CharField(max_length=200)
+        city = models.CharField(max_length=100)
+        province = models.CharField(max_length=100)
+        country = models.CharField(max_length=100)
+        
+        def __str__(self):
+            return self.first_name + ' ' + self.last_name
+
+    #run migration:
+    python manage.py makemigrations
+    python manage.py migrate
+
+#webapp/admin.py:
+    from .models import Record
+
+    admin.site.register(Record)
+
+    #in views.py:
+    from .models import Record
+
+    @login_required(login_url='my-login')
+    def dashboard(request): 
+        my_records = Record.objects.all()
+        context = {'records': my_records}
+        return render(request, 'webapp/dashboard.html', context= context)
+
+    #dashboard.py:
+    {% extends "webapp/base.html" %}
+    {% block content %}
+    <h1>
+        Welcome to the Dashboard! {{user}}
+    </h1>
+    {% for record in records %}
+        <p>{{record.id}}</p>
+        <p>{{record.first_name}}</p>
+        <p>{{record.last_name}}</p>
+    {% endfor %}
+    {% endblock %}
+
+#CREATE RECORD
+#views.py:
+    @login_required(login_url='my-login')
+    def create_record(request):
+        pass
+
+#forms.py:
+    from .models import Record
+
+        # - Create Record Form
+
+        class CreateRecordForm(forms.ModelForm):
+            
+            class Meta:
+                model = Record
+                fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'province', 'country']
+
+        # - Update Record Form
+
+        class UpdateRecordForm(forms.ModelForm):
+                
+            class Meta:
+                model = Record
+                fields = ['first_name', 'last_name', 'email', 'phone', 'address', 'city', 'province', 'country'] 
+
+        #Add to forms.py:
+        from .forms import CreateRecordForm, UpdateRecordForm
+
+
+#Create a record in views.py:
+@login_required(login_url='my-login')
+def create_record(request):
+    form = CreateRecordForm()
+    
+    if request.method == 'POST':
+        form = CreateRecordForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('dashboard')
+        
+    context = {'form': form}
+    return render(request, 'webapp/create-record.html', context= context)
+
+#add to create_record.html:
+    {% extends "webapp/base.html" %}
+    {% load crispy_form_tags %}
+    {% block content %}
+        <h5> Create a new record </h5>
+        <hr>
+        <form method="POST" action="{% url 'create-record' %}">
+            {% csrf_token %}
+    {% endblock %}
+
+#update record:
+    #in views.py:
+        @login_required(login_url='my-login')
+        def update_record(request, pk):
+
+            record = Record.objects.get(id=pk)
+
+            form = UpdateRecordForm(instance=record)
+
+            if request.method == 'POST':
+
+                form = UpdateRecordForm(request.POST, instance=record)
+
+                if form.is_valid():
+
+                    form.save()
+
+                    messages.success(request, "Your record was updated!")
+
+                    return redirect("dashboard")
+                
+            context = {'form':form}
+
+            return render(request, 'webapp/update-record.html', context=context)
+
+#Create content for view-record.html:
+    #in views.py:
+        @login_required(login_url='my-login')
+        def singular_record(request, pk):
+
+            all_records = Record.objects.get(id=pk)
+
+            context = {'record':all_records}
+
+            return render(request, 'webapp/view-record.html', context=context)
+
+    #ctreate dinamic url:
+        path('record/int:pk>/', views.singular_record, name='record'),
+        
+    #Add to dashboard.html:
+        href="{% url 'record' record.id%}" 
