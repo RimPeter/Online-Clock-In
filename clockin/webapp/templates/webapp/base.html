@@ -16,13 +16,26 @@
       type="text/css"
       href="{% static 'css/style.css' %}"
     />
+
   </head>
   <body>
     {% include 'webapp/navbar.html' %}
     <div class="container">
       <br />
 
-      {% block content %} {% endblock %}
+      {% for message in messages%}
+      
+          {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+            <p id="message-timer" class="alert alert-success float-center text-center">
+
+              <i class='fa fa-check'aria-hidde='true'></i> &nbsp; {{message}}
+
+            </p>
+          {% endif %}
+        {% endfor %}
+      {% block content %} 
+      
+      {% endblock %}
     </div>
 
     <script src="{% static 'js/app.js' %}"></script>
